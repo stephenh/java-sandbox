@@ -43,11 +43,11 @@ public class Foo {
     requestId.set("REQUEST123");
     var task = Task.value("first value").flatMap(value -> {
       var get1 = HttpClient.get("http://www.google.com").task().map(response -> {
-        System.out.println("REQUEST = " + requestId.get());
+        System.out.println("REQUEST = " + requestId.get() + " on " + Thread.currentThread());
         return requestId.get() + " " + response.getStatusCode();
       });
       var get2 = HttpClient.get("http://www.google.com").task().map(response -> {
-        System.out.println("REQUEST = " + requestId.get());
+        System.out.println("REQUEST = " + requestId.get() + " on " + Thread.currentThread());
         return requestId.get() + " " + response.getStatusCode();
       });
       return Task.par(get1, get2);
@@ -80,8 +80,8 @@ public class Foo {
     // RESTORE ON THREAD Thread[pool-1-thread-1,5,main] value is REQUEST123
     // CAPTURE ON THREAD Thread[New I/O worker #1,5,main] value is null
     // RESTORE ON THREAD Thread[pool-1-thread-1,5,main] value is null
-    // REQUEST = null
-    // REQUEST = null
+    // REQUEST = null on Thread[pool-1-thread-1,5,main]
+    // REQUEST = null on Thread[pool-1-thread-1,5,main]
     // Google Page: (null 200, null 200)
   }
 }
