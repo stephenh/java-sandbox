@@ -6,21 +6,21 @@ plugins {
 repositories {
   mavenCentral()
   maven { url "http://repo.joist.ws" }
+  maven { url 'https://jitpack.io' }
   mavenLocal()
 }
 
 dependencies {
+  compile 'com.linkedin.parseq:parseq:2.6.35'
+  compile 'com.linkedin.parseq:parseq-http-client:2.6.35'
+  compile 'com.github.lucidsoftware:java-thread-context:0.7'
   compile 'commons-io:commons-io:2.6'
   compile 'org.apache.commons:commons-lang3:3.8'
   testCompile 'junit:junit:4.12'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-def currentJvm = org.gradle.internal.jvm.Jvm.current()
-def jvmVersion = (currentJvm.toString() =~ /^\d+/)[0].toDouble()
-if (jvmVersion >= 1.9) {
-  compileJava {
-    options.compilerArgs.addAll(['--release', '8'])
-  }
+sourceCompatibility = 11
+targetCompatibility = 11
+compileJava {
+  options.compilerArgs.addAll(['--release', '11'])
 }
